@@ -15,16 +15,18 @@ makeCacheMatrix <- function(baseMtx = matrix(), ...) {
 	set <- function(y) {
 		baseMtx <<- y
 		mtxInverse <<- NULL
-		} ## in global environment sets defined matrix as input 
-		  ## and clears any cached inverse
+		}  
+	## in global environment sets defined matrix as input and clears any 
+	## cached inverse
 	
 	get <- function() baseMtx ## a function to retrieve the input matrix
 
-	setinverse <- function(solve) mtxInverse <<- solve ##calculates inverse based
-                                                           ## on an argument called "solve"	
+	setinverse <- function(solve) mtxInverse <<- solve 
+	##calculates inverse based on an argument called "solve"	
 
-	getinverse <- function() mtxInverse ## defined function to return the value of
-					    ## an already cached matrix inverse
+	getinverse <- function() mtxInverse 
+	## defined function to return the value of an already cached matrix 
+	## inverse
 
 	list(set = set, get = get, 
 	     setinverse = setinverse, 
@@ -32,20 +34,27 @@ makeCacheMatrix <- function(baseMtx = matrix(), ...) {
 }
 
 cacheSolve <- function(baseMtx, ...) {
-	## Calculate inverse of defined Matrix, if it already exists, return from cache
+	## Calculate inverse of defined Matrix, if it already exists, return
+	## from cache
 
-	mtxInverse <- baseMtx$getinverse() ## set value based on getinverse function defined when
-					   ## running makeCacheMatrix
+	mtxInverse <- baseMtx$getinverse() 
+	## set value based on getinverse function defined when running 
+	## makeCacheMatrix
 
 	if(!is.null(mtxInverse)) {
 		message("Retrieving data from cache")
 		return(mtxInverse)
-	} ## checks if the object returned from getinverse exists (i.e. if it has previously been 
-	  ## calculated). If so, it will return this value, avoiding re-calculation, if not the function
-	  ## continues to execute
+	} 
+	## checks if the object returned from getinverse exists (i.e. if it 
+	## has previously been calculated). If so, it will return this value, 
+	## avoiding re-calculation, if not the function continues to execute.
 
-	data <- baseMtx$get() ## retrives base matrix
-	mtxInverse <- solve(data, ...) ## calculates the inverse of the base matrix
-	baseMtx$setinverse(mtxInverse) ## sets the calculated inverse into the cache for later recall 
-	mtxInverse ## prints calculated inverse
+	data <- baseMtx$get() 
+	## retrives base matrix
+	mtxInverse <- solve(data, ...) 
+	## calculates the inverse of the base matrix
+	baseMtx$setinverse(mtxInverse) 
+	## sets the calculated inverse into the cache for later recall 
+	mtxInverse 
+	## prints calculated inverse
 }
